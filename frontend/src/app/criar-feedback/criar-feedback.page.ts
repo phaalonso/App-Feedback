@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Feedback } from '../home/home.page';
 import { PhotoService } from '../services/photo.service';
 
@@ -17,7 +17,8 @@ export class CriarFeedbackPage implements OnInit {
   constructor(
     public modalController: ModalController,
     public formBuilder: FormBuilder,
-    public photoService: PhotoService
+    public photoService: PhotoService,
+    public toastController: ToastController
   ) {
     this.formulario = this.formBuilder.group({
       title: ["", [Validators.required, Validators.minLength(3)]],
@@ -27,6 +28,15 @@ export class CriarFeedbackPage implements OnInit {
     })
   }
 
+  async toastFormularioInvalido() {
+    const toast = await this.toastController.create({
+      message: 'Preencha corretatente os campos!',
+      duration: 2000,
+    });
+
+    await toast.present();
+  }
+
   cadastrar() {
     console.log('Cadastrar');
     console.log(this.formulario.value);
@@ -34,8 +44,15 @@ export class CriarFeedbackPage implements OnInit {
     if (this.formulario.valid) {
       this.feedbacks.unshift(this.formulario.value);
       
-      this.modalController.dismiss();
+      this.dismiss();
+    } else {
+      this.toastFormularioInvalido();
+      this.formulario.markAllAsTouched();
     }
+  }
+
+  dismiss() {
+    this.modalController.dismiss();
   }
 
   async adicionarFoto() {

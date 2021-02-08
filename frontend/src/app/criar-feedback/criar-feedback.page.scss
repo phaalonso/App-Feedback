@@ -6,6 +6,18 @@
     color: red;
 }
 
+ion-toolbar {
+  ion-title {
+    display: inline-flexbox;
+    // background-color: #545ca7;
+    ion-icon {
+      vertical-align: middle;
+      color: #3880ff;
+      // background-color: #20a08a;
+    }
+  }
+}
+
 ion-button {
     span + ion-icon {
         margin-left: 10px;

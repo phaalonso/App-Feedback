@@ -1,19 +1,32 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Criar feedback</ion-title>
+    <ion-title>
+      <ion-icon (click)="dismiss()" name="arrow-back-outline"></ion-icon>
+      <span> Criar feedback </span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="container">
-    
     <form [formGroup]="formulario" (ngSubmit)="cadastrar()" novalidate>
-      <ion-img *ngIf="formulario.get('photo_path').value" [src]="formulario.get('photo_path').value"></ion-img>
-  
+      <ion-img
+        *ngIf="formulario.get('photo_path').value"
+        [src]="formulario.get('photo_path').value"
+      ></ion-img>
+
       <ion-button (click)="adicionarFoto()">
         <span>Adicionar foto</span>
         <ion-icon name="camera"></ion-icon>
       </ion-button>
+      <div
+        class="errors"
+        *ngIf="formulario.get('photo_path').dirty || formulario.get('photo_path').touched"
+      >
+        <span *ngIf="formulario.controls.photo_path.errors?.required">
+          Insira uma foto
+        </span>
+      </div>
 
       <ion-item>
         <ion-label position="floating"
