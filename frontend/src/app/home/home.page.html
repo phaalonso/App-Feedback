@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Feedback </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngFor="let fb of feedbacks">
+    <ion-card>
+      <img src="{{fb.photo_path}}" />
+      <ion-card-header>
+        <ion-card-subtitle>{{getFeedBackString(fb.type)}}</ion-card-subtitle>
+        <ion-card-title>{{fb.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content> {{fb.message}} </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="criarFeedback()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

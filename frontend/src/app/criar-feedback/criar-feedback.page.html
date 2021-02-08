@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Criar feedback</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    
+    <form [formGroup]="formulario" (ngSubmit)="cadastrar()" novalidate>
+      <ion-img *ngIf="formulario.get('photo_path').value" [src]="formulario.get('photo_path').value"></ion-img>
+  
+      <ion-button (click)="adicionarFoto()">
+        <span>Adicionar foto</span>
+        <ion-icon name="camera"></ion-icon>
+      </ion-button>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Titulo <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input formControlName="title" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="formulario.get('title').dirty || formulario.get('title').touched"
+      >
+        <span *ngIf="formulario.controls.title.errors?.required">
+          Insira o título
+        </span>
+        <span *ngIf="formulario.controls.title.errors?.minlength">
+          O título deve ter mais do que três caracteres
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Mensagem <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-textarea formControlName="message" required></ion-textarea>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="formulario.get('message').dirty || formulario.get('message').touched"
+      >
+        <span *ngIf="formulario.controls.message.errors?.required">
+          Insira a mensagem
+        </span>
+        <span *ngIf="formulario.controls.message.errors?.minlength">
+          A mensagem deve ter pelo menos três caracteres
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label>Tipo do feedback</ion-label>
+        <ion-select formControlName="type" cancelText="Sair" okText="Concluir!">
+          <ion-select-option value="0">Critica</ion-select-option>
+          <ion-select-option value="1">Sugestão</ion-select-option>
+          <ion-select-option value="2">Elogio</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="formulario.get('type').dirty || formulario.get('type').touched"
+      >
+        <span *ngIf="formulario.controls.title.errors?.required">
+          Selecione um item
+        </span>
+      </div>
+
+      <ion-button type="submit" expand="block" fill="solid" shape="round">
+        Cadastrar
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
