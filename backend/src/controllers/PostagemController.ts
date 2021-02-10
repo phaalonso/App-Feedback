@@ -36,20 +36,22 @@ export default {
     },
     async create(req: Request, res: Response) {
         const postagemRepository = getRepository(Postagem);
-		const { mensagem, usuario: usuario_id } = req.body;
+		const { mensagem, usuario: usuario_id, tipo } = req.body;
 
 		const data = { 
 			mensagem, 
 			usuario: {
 				id: usuario_id
-			}
+			},
+			tipo
 		};
 
 		const schema = Yup.object().shape({
 			mensagem: Yup.string().trim().required(),
 			usuario: Yup.object().shape({
 				id: Yup.number().required().integer().min(0)
-			})
+			}),
+			tipo: Yup.number().required().integer().min(0).max(2)
 		});
 
 		await schema.validate(data, {

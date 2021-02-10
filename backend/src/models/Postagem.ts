@@ -2,6 +2,12 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import Image from "./Image";
 import Usuario from "./Usuario";
 
+export enum FeedbackType {
+  CRITICA = 0,
+  SUGESTAO = 1,
+  ELOGIO = 2
+}
+
 @Entity('postagem')
 export default class Postagem {
     @PrimaryGeneratedColumn('increment')
@@ -20,4 +26,6 @@ export default class Postagem {
     })
     images: Image[];
 
+	@Column({ type: 'enum', enum: FeedbackType, nullable: false })
+	tipo: FeedbackType;
 }
