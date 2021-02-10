@@ -1,14 +1,34 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { FindManyOptions, getRepository } from "typeorm";
 import Postagem from "../models/Postagem";
 import postagemView from "../view/postagemView";
 import * as Yup from 'yup';
 
 export default {
     async index(req: Request, res: Response) {
+		const { tipo } = req.query;
+
+		let options: FindManyOptions<Postagem> = {};
+
+		/**
+		 * Se a variável tipo exisistir, ele irá adicionar as opçẽos de busca
+		 * um where para retornar apenas os atributos que o satisfaçam
+		 */
+		if (tipo) {
+			const schema = Yup.object().shape({
+				tipo: Yup.number().required().integer().min(0).max(2)
+			});
+
+			await schema.validate({ tipo }, {
+				abortEarly: false
+			});
+
+			options.where = { tipo };
+		}
+
         const postagemRepository = getRepository(Postagem);
 
-        const postagems = await postagemRepository.find();
+        const postagems = await postagemRepository.find(options);
         console.log(postagems);
         
 
