@@ -6,7 +6,8 @@ export default {
         return {
             id: post.id,
             mensagem: post.mensagem,
-            images: imagemView.renderMany(post.images)
+			images: imagemView.renderMany(post.images),
+			tipo: post.tipo
         }
     },
     renderMany(post: Postagem[]) {
