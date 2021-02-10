@@ -16,4 +16,6 @@ router.get('/postagem', PostagemController.index);
 router.get('/postagem/:id', PostagemController.show);
 router.post('/postagem', upload.array('imagens'), PostagemController.create);
 
+router.post('/aprovar/:id', PostagemController.aprovarAviso);
+
 export default router;
