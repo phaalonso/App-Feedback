@@ -88,5 +88,27 @@ export default {
         await postagemRepository.save(post);
 
         return res.status(201).json(post);
-    }
+	},
+	async aprovarAviso(req: Request, res: Response) {
+        const postagemRepository = getRepository(Postagem);
+        const { id } = req.params;
+
+		const { aprovada } = req.body;
+
+		const schema = Yup.object().shape({
+			id: Yup.number().required().integer().min(0)
+		});
+
+		await schema.validate({ id }, {
+			abortEarly: false,
+		});
+
+		const result = await postagemRepository.update(id, { aprovada })
+
+		if (result.affected && result.affected > 0) {
+			return res.json({ message: 'Atualizada' });
+		}
+
+		return res.status(400).send();
+	}
 }

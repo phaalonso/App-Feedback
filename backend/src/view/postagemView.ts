@@ -7,7 +7,8 @@ export default {
             id: post.id,
             mensagem: post.mensagem,
 			images: imagemView.renderMany(post.images),
-			tipo: post.tipo
+			tipo: post.tipo,
+			aprovada: post.aprovada
         }
     },
     renderMany(post: Postagem[]) {

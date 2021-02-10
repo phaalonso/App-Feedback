@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import Image from "./Image";
 import Usuario from "./Usuario";
 
@@ -28,4 +28,7 @@ export default class Postagem {
 
 	@Column({ type: 'enum', enum: FeedbackType, nullable: false })
 	tipo: FeedbackType;
+
+	@Column({ type: 'boolean', nullable: false })
+	aprovada: boolean;
 }
