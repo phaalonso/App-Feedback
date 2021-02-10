@@ -6,9 +6,10 @@ import * as Yup from 'yup';
 
 export default {
     async index(req: Request, res: Response) {
-		const { tipo } = req.query;
+		const { tipo, aprovada } = req.query;
 
 		let options: FindManyOptions<Postagem> = {};
+		options.where = {};
 
 		/**
 		 * Se a variável tipo exisistir, ele irá adicionar as opçẽos de busca
@@ -23,13 +24,25 @@ export default {
 				abortEarly: false
 			});
 
-			options.where = { tipo };
+			options.where.tipo = tipo;
+		}
+
+		if (aprovada) {
+			const schema2 = Yup.object().shape({
+				autorizada: Yup.boolean().required()
+			});
+
+			await schema2.validate({ autorizada: aprovada }, {
+				abortEarly: false
+			});
+
+			options.where.aprovada = aprovada === 'true' ? true : false;
 		}
 
         const postagemRepository = getRepository(Postagem);
 
+		console.log(options);
         const postagems = await postagemRepository.find(options);
-        console.log(postagems);
         
 
         return res.json(postagemView.renderMany(postagems));

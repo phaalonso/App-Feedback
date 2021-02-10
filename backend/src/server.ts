@@ -1,4 +1,5 @@
 import express from 'express';
+import * as dotenv from 'dotenv';
 import path from 'path';
 
 import 'express-async-errors';
@@ -8,6 +9,8 @@ import router from './routes';
 import './database/connection';
 
 const pathToImages = path.join(__dirname, '..', 'static', 'images');
+
+dotenv.config();
 
 const app = express();
 

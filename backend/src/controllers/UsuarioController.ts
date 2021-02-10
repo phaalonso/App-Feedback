@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { getRepository } from "typeorm"
 import Usuario from "../models/Usuario"
+import * as jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 
 const MYSQL_UNIQUE_CONSTRAINT_VIOLATION = 1062;
 
 export default {
-
     async index(req: Request, res: Response) {
         const userRepository = getRepository(Usuario);
 
@@ -46,9 +46,9 @@ export default {
 		};
 
 		const schema = Yup.object().shape({
-			nome: Yup.string().required(),
-			email: Yup.string().required().email(),
-			senha: Yup.string().required()
+			nome: Yup.string().trim().required(),
+			email: Yup.string().trim().required().email(),
+			senha: Yup.string().trim().required()
 		});
 
 		await schema.validate(data, {
@@ -70,9 +70,35 @@ export default {
             console.error(err);
         }
 
-    }
+	},
+	async login(request: Request, response: Response) {
+		//desestruturacao
+		const { email, senha } = request.body;
 
-    // async delete(req: Request, res: Response) {
+		const data = {
+			email,
+			senha
+		};
 
-    // }
+		const schema = Yup.object().shape({
+			email: Yup.string().required().email(),
+			senha: Yup.string().required()
+		});
+
+		await schema.validate(data, {
+			abortEarly: true
+		});
+
+		const userRepository = getRepository(Usuario);
+
+		const user = await userRepository.findOneOrFail({ where: data });
+
+		const token = jwt.sign({ id: user.id }, process.env.TOKEN_ACESSO as jwt.Secret, {
+			expiresIn: 300, // expires in 5min
+		});
+
+		return response.status(200).json({
+			token: token,
+		});
+  }
 }
