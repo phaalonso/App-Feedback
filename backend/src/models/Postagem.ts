@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import Image from "./Image";
 import Usuario from "./Usuario";
 
@@ -10,25 +10,28 @@ export enum FeedbackType {
 
 @Entity('postagem')
 export default class Postagem {
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-    @Column({ name: 'mensagem', type: 'varchar', nullable: false })
-    mensagem: string;
+  @Column({ name: 'titulo', type: 'varchar', nullable: false })
+  titulo: string;
 
-    @ManyToOne(() => Usuario, usuario => usuario.postagens)
-    @JoinColumn({ name: 'usuario_id' })
-    usuario: Usuario;
+  @Column({ name: 'mensagem', type: 'varchar', nullable: false })
+  mensagem: string;
 
-    @OneToMany(() => Image, img => img.post, {
-        cascade: ['insert', 'update', 'remove'],
-        eager: true
-    })
-    images: Image[];
+  @ManyToOne(() => Usuario, usuario => usuario.postagens)
+  @JoinColumn({ name: 'usuario_id' })
+  usuario: Usuario;
 
-	@Column({ type: 'enum', enum: FeedbackType, nullable: false })
-	tipo: FeedbackType;
+  @OneToMany(() => Image, img => img.post, {
+    cascade: ['insert', 'update', 'remove'],
+    eager: true
+  })
+  images: Image[];
 
-	@Column({ type: 'boolean', nullable: false })
-	aprovada: boolean;
+  @Column({ type: 'enum', enum: FeedbackType, nullable: false })
+  tipo: FeedbackType;
+
+  @Column({ type: 'boolean', nullable: false })
+  aprovada: boolean;
 }

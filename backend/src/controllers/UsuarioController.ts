@@ -71,9 +71,8 @@ export default {
         }
 
 	},
-	async login(request: Request, response: Response) {
-		//desestruturacao
-		const { email, senha } = request.body;
+	async login(req: Request, res: Response) {
+		const { email, senha } = req.body;
 
 		const data = {
 			email,
@@ -97,7 +96,7 @@ export default {
 			expiresIn: 300, // expires in 5min
 		});
 
-		return response.status(200).json({
+		return res.status(200).json({
 			token: token,
 		});
   }

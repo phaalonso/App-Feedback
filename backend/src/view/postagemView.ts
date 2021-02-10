@@ -5,6 +5,7 @@ export default {
     render(post: Postagem) {
         return {
             id: post.id,
+            titulo: post.titulo,
             mensagem: post.mensagem,
 			images: imagemView.renderMany(post.images),
 			tipo: post.tipo,
@@ -12,8 +13,6 @@ export default {
         }
     },
     renderMany(post: Postagem[]) {
-        console.log(post);
-        
         return post.map(post => this.render(post));
     }
 }

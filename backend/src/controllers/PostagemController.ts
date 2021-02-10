@@ -69,10 +69,11 @@ export default {
     },
     async create(req: Request, res: Response) {
         const postagemRepository = getRepository(Postagem);
-		const { mensagem, usuario: usuario_id, tipo } = req.body;
+		const { mensagem, titulo, usuario: usuario_id, tipo } = req.body;
 
 		const data = { 
-			mensagem, 
+			mensagem,
+			titulo,
 			usuario: {
 				id: usuario_id
 			},
@@ -81,6 +82,7 @@ export default {
 
 		const schema = Yup.object().shape({
 			mensagem: Yup.string().trim().required(),
+			titulo: Yup.string().trim().required(),
 			usuario: Yup.object().shape({
 				id: Yup.number().required().integer().min(0)
 			}),
@@ -94,9 +96,11 @@ export default {
         const requestImagens = req.files as Express.Multer.File[];
 
         const imagens = requestImagens.map(img => ({ path: img.filename }));
-        console.log(imagens);
+		console.log(imagens);
+
+		console.log({ ...data, images: imagens });
         
-        const post = postagemRepository.create(data)
+        const post = postagemRepository.create({ ...data, images: imagens });
 
         await postagemRepository.save(post);
 
