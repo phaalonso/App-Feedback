@@ -89,6 +89,7 @@ export default {
 
         return res.status(201).json(post);
 	},
+
 	async aprovarAviso(req: Request, res: Response) {
         const postagemRepository = getRepository(Postagem);
         const { id } = req.params;
@@ -101,6 +102,14 @@ export default {
 
 		await schema.validate({ id }, {
 			abortEarly: false,
+		});
+
+		const bodySchema = Yup.object().shape({ 
+			aprovada: Yup.bool().required()
+		});
+
+		await bodySchema.validate({ aprovada }, {
+			abortEarly: false
 		});
 
 		const result = await postagemRepository.update(id, { aprovada })
