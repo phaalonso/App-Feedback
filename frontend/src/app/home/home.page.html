@@ -7,7 +7,7 @@
 <ion-content [fullscreen]="true">
   <div *ngFor="let fb of feedbacks">
     <ion-card>
-      <img *ngIf="fb.images[0]" src="{{fb.images[0].url}}" />
+      <img *ngIf="fb.images && fb.images.length > 0" src="{{fb.images[0].url}}" />
       <ion-card-header>
         <ion-card-subtitle>{{getFeedBackString(fb.tipo)}}</ion-card-subtitle>
         <ion-card-title>{{fb.titulo}}</ion-card-title>

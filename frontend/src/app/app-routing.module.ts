@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'criar-feedback',
     loadChildren: () => import('./criar-feedback/criar-feedback.module').then( m => m.CriarFeedbackPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
 ];
 
 @NgModule({

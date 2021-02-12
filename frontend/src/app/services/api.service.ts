@@ -57,4 +57,56 @@ export class ApiService {
     });
   }
 
+  public async uploadPostagem(postagem: Feedback) {
+    const url = `${environment.serverUrl}/postagem`;
+    const loading = await this.loadingCtrl.create({
+      message: 'Uploading...'
+    });
+
+    await loading.present();
+
+    const formData = new FormData();
+
+    formData.append('titulo', postagem.titulo);
+    formData.append('mensagem', postagem.mensagem);
+    formData.append('tipo', postagem.tipo.toString());
+    formData.append('usuario', postagem.usuario.toString());
+
+    console.log('Img da postagem', postagem.images);
+    
+    for (let img of postagem.images) {
+      const blob = await fetch(img.url).then(r => r.blob());
+
+      formData.append('imagens', blob,);
+    }
+
+    this.http.post<boolean>(url, formData).subscribe(ok => {
+      loading?.dismiss();
+      this.showToast(true);
+    }, err => {
+      loading?.dismiss();
+      this.showToast(false);
+    });
+  }
+
+  private async showToast(ok: boolean) {
+    if (ok) {
+      const toast = await this.toastCtrl.create({
+        message: 'Upload com sucesso',
+        duration: 3000,
+        position: 'top'
+      });
+
+      toast.present();
+    } else {
+      const toast = await this.toastCtrl.create({
+        message: 'Falha no upload',
+        duration: 3000,
+        position: 'top'
+      });
+
+      toast.present();
+    }
+  }
+
 }
