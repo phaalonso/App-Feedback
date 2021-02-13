@@ -15,6 +15,7 @@ router.post('/user', UsuarioController.create);
 
 router.get('/postagem', PostagemController.index);
 router.get('/postagem/:id', PostagemController.show);
+router.delete('/postagem/:id', PostagemController.delete);
 router.post('/postagem', upload.array('imagens'), PostagemController.create);
 
 router.post('/login', UsuarioController.login);

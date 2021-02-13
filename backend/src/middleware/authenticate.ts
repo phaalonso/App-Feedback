@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 const extractToken = (req: Request) => {
+  console.log(req.headers);
+  
   const authorization = req.headers.authorization || ''
   return authorization.replace('Bearer ', '')
 }

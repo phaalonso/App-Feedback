@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 
 export default {
     async index(req: Request, res: Response) {
+		console.log(req.query);
+		
 		const { tipo, aprovada } = req.query;
 
 		let options: FindManyOptions<Postagem> = {};
@@ -136,5 +138,24 @@ export default {
 		}
 
 		return res.status(400).send();
-	}
+	},
+    async delete(req: Request, res: Response) {
+        const postagemRepository = getRepository(Postagem);
+        const { id } = req.params;
+
+		const schema = Yup.object().shape({
+			id: Yup.number().required().integer().min(0)
+		});
+
+		await schema.validate({ id }, {
+			abortEarly: false
+		});
+
+		const result = await postagemRepository.delete(parseInt(id));
+
+		if (result.affected && result.affected > 0)
+			return res.status(200).json({ message: 'Deleted' });
+		else
+			return res.status(400).send();
+    },
 }
