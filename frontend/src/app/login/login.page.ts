@@ -32,6 +32,7 @@ export class LoginPage implements OnInit {
 
       this.autenticacaoService.login(usuario).then(flag => {
         if (flag) {
+          this.form.reset();
           this.router.navigate(['/home']);
         } else {
           this.showToast();
