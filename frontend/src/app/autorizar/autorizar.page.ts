@@ -47,6 +47,18 @@ export class AutorizarPage implements OnInit {
     });
   }
 
+  public async deletar(id: number) {
+    this.apresentarLoading('Deletando a postagem');
+    this.apiService.deletar(id).then(res => {
+      this.feedbacks = this.feedbacks.filter(fd => fd.id !== id)
+      this.fecharLoading();
+    }).catch(err => {
+      this.fecharLoading();
+      console.error(err);
+      this.apresentarToast('Não foi possivel deletar');
+    });
+  }
+
   public async apresentarLoading(mensagem: string) {
     const load = await this.loadingController.create({
       message: mensagem

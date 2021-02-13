@@ -139,6 +139,28 @@ export class ApiService {
     });
   }
 
+  public async deletar(id: number) {
+    const url = `${environment.serverUrl}/postagem/${id}`;
+
+    const lgData: LoginData = await this.storage.recuperar('login');
+
+    if (!lgData.token) {
+      return false;
+    }
+
+    const bearer = `Bearer ${lgData.token}`;
+
+    const headers = new HttpHeaders({ Authorization: bearer });
+
+    return new Promise((resolve, reject) => {
+      this.http.delete(url, { headers }  ).subscribe(ok => {
+        resolve(ok);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
   private async showToast(ok: boolean) {
     if (ok) {
       const toast = await this.toastCtrl.create({

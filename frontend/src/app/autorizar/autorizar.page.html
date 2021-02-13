@@ -14,6 +14,9 @@
       </ion-card-header>
       <ion-card-content> {{fb.mensagem}} </ion-card-content>
       <ion-button (click)="aprovar(fb.id)">Autorizar</ion-button>
+      <ion-button (click)="deletar(fb.id)">
+        <ion-icon color="danger" name="trash"></ion-icon>
+      </ion-button>
     </ion-card>
   </ion-list>
 

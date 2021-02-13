@@ -23,20 +23,21 @@ export class CriarFeedbackPage implements OnInit {
     public apiService: ApiService
   ) {
     this.formulario = this.formBuilder.group({
-      titulo: ["", [Validators.required, Validators.minLength(3)]],
-      mensagem: ["", [Validators.required, Validators.minLength(3)]],
+      titulo: ['', [Validators.required, Validators.minLength(3)]],
+      mensagem: ['', [Validators.required, Validators.minLength(3)]],
       tipo: [0, [Validators.required, Validators.min(0), Validators.max(2)]],
     });
 
     this.imgForm = this.formBuilder.group({
-      url: ["", Validators.required]
+      url: ['', Validators.required]
     });
   }
 
-  async toastFormularioInvalido() {
+  async toast(message: string) {
     const toast = await this.toastController.create({
-      message: 'Preencha corretatente os campos!',
+      message,
       duration: 2000,
+      position: 'bottom',
     });
 
     await toast.present();
@@ -55,13 +56,13 @@ export class CriarFeedbackPage implements OnInit {
       console.log('Feedback', feedback);
       const response = await this.apiService.uploadPostagem(feedback);
 
-      if (response) {
-        this.feedbacks.unshift(feedback);
+      if (!response) {
+        this.toast('Ocorreu um problema ao cadastrar')
       }
 
       this.dismiss();
     } else {
-      this.toastFormularioInvalido();
+      this.toast('Preencha corretamente os campos');
       this.formulario.markAllAsTouched();
       this.imgForm.markAllAsTouched();
     }
@@ -74,12 +75,12 @@ export class CriarFeedbackPage implements OnInit {
   async adicionarFoto() {
     await this.photoService.addNewToGallery();
     const photo = this.photoService.photos[0];
-    //console.log('Photo', photo);
+    // console.log('Photo', photo);
 
     this.imgForm.controls.url.setValue(photo.webViewPath);
-    //console.log(this.imgForm.get('url').value);
+    // console.log(this.imgForm.get('url').value);
 
-    //console.log(this.photoService.photos);
+    // console.log(this.photoService.photos);
 
   }
 
