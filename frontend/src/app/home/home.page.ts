@@ -18,7 +18,7 @@ export class HomePage {
     public modalController: ModalController,
     public apiService: ApiService,
     public router: Router,
-    private autenticacaoService: AutenticacaoService,
+    public autenticacaoService: AutenticacaoService,
   ) {
     // Prossiga para a página caso esteja logado, senão redireciona
 

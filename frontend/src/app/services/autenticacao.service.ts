@@ -4,7 +4,12 @@ import {StorageService} from './storage.service';
 
 interface LoginData {
   token: string;
-  accesLevel: string;
+  accesLevel: number;
+}
+
+enum AcessLevel {
+  USUARIO = 0,
+  ADMIN = 1,
 }
 
 @Injectable({
@@ -23,6 +28,8 @@ export class AutenticacaoService {
   public login(user: Usuario) {
     return new Promise((resolve, _) => {
       this.apiService.logar(user).subscribe((ok: LoginData) => {
+        console.log(ok);
+
         this.saveToken(ok);
         this.logado = true;
         resolve(true);
@@ -46,6 +53,18 @@ export class AutenticacaoService {
     }
 
     return this.logado;
+  }
+
+  public getAcessLevel() {
+    if (this.data && this.data.accesLevel) {
+      return this.data.accesLevel;
+    }
+
+    return null;
+  }
+
+  public isAdmin() {
+    return this.getAcessLevel() === AcessLevel.ADMIN;
   }
 
   public async deslogar() {

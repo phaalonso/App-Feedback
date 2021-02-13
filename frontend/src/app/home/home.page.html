@@ -5,6 +5,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-button *ngIf="autenticacaoService.isAdmin()" [routerLink]="['/autorizar']">
+    Ir aprovar
+  </ion-button>
+
   <div *ngFor="let fb of feedbacks">
     <ion-card>
       <img *ngIf="fb.images && fb.images.length > 0" src="{{fb.images[0].url}}" />
