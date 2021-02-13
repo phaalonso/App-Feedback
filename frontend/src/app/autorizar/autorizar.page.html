@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>autorizar</ion-title>
+    <ion-title>Autorizar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div *ngFor="let fb of feedbacks">
+  <ion-list *ngFor="let fb of feedbacks">
     <ion-card>
       <img *ngIf="fb.images && fb.images.length > 0" src="{{fb.images[0].url}}" />
       <ion-card-header>
@@ -13,8 +13,9 @@
         <ion-card-title>{{fb.titulo}}</ion-card-title>
       </ion-card-header>
       <ion-card-content> {{fb.mensagem}} </ion-card-content>
+      <ion-button (click)="aprovar(fb.id)">Autorizar</ion-button>
     </ion-card>
-  </div>
+  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button [routerLink]="['/home']">

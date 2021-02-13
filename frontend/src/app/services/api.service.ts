@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import {AutenticacaoService, LoginData} from './autenticacao.service';
+import {StorageService} from './storage.service';
 
 export interface LoginResponse {
   token: string;
@@ -43,7 +45,8 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private storage: StorageService
   ) { }
 
   public logar(usuario: Usuario) {
@@ -52,11 +55,17 @@ export class ApiService {
     return this.http.post(url, usuario);
   }
 
-  public getPostagens(): Promise<any> {
+  public getPostagens(aprovada: boolean = true): Promise<any> {
     const url = `${environment.serverUrl}/postagem`;
 
+    const params = new HttpParams({
+      fromObject: {
+        aprovada: aprovada.toString()
+      }
+    });
+
     return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe((res: LoginResponse) => {
+      this.http.get(url, { params }).subscribe((res: LoginResponse) => {
         resolve(res);
       }, err => {
         reject(null);
@@ -106,6 +115,28 @@ export class ApiService {
     if (type === 2) { return 'Elogio'; }
 
     return '';
+  }
+
+  public async autorizar(id: number) {
+    const url = `${environment.serverUrl}/aprovar/${id}`;
+
+    const lgData: LoginData = await this.storage.recuperar('login');
+
+    if (!lgData.token) {
+      return false;
+    }
+
+    const bearer = `Bearer ${lgData.token}`;
+
+    const headers = new HttpHeaders({ Authorization: bearer });
+
+    return new Promise((resolve, reject) => {
+      this.http.post(url, { aprovada: true }, { headers }  ).subscribe(ok => {
+        resolve(ok);
+      }, err => {
+        reject(err);
+      });
+    });
   }
 
   private async showToast(ok: boolean) {

@@ -26,7 +26,7 @@ export class HomePage {
       if (!this.autenticacaoService.isLogado()) {
         this.router.navigate(['/login']);
       } else {
-        this.apiService.getPostagens().then(data => {
+        this.apiService.getPostagens(true).then(data => {
           console.log(data);
           this.feedbacks = data;
         });

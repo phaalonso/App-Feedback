@@ -95,7 +95,7 @@ export default {
 		const user = await userRepository.findOneOrFail({ where: data });
 
 		const token = jwt.sign({ id: user.id }, process.env.TOKEN_ACESSO as jwt.Secret, {
-			expiresIn: 300, // expires in 5min
+			expiresIn: 3000,
 		});
 
 		return res.status(200).json({

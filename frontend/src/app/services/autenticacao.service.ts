@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {ApiService, Usuario} from './api.service';
 import {StorageService} from './storage.service';
 
-interface LoginData {
+export interface LoginData {
   token: string;
   acessoLevel: number;
 }
@@ -30,7 +30,7 @@ export class AutenticacaoService {
       this.apiService.logar(user).subscribe((ok: LoginData) => {
         console.log(ok);
 
-        this.saveToken(ok);
+        this.saveData(ok);
         this.logado = true;
         resolve(true);
       }, err => {
@@ -40,17 +40,21 @@ export class AutenticacaoService {
     });
   }
 
-  private saveToken(lgData: LoginData) {
+  private async saveData(lgData: LoginData) {
     this.data = lgData;
     this.storageService.armazenar('login', lgData);
   }
 
-  public async isLogado() {
+  private async getData() {
     if (!this.data) {
       this.data = await this.storageService.recuperar('login');
-      // Se estiver logado e se data não for nulo => true
-      this.logado = this.logado && !!this.data;
     }
+  }
+
+  public async isLogado() {
+    await this.getData();
+    // Se estiver logado e se data não for nulo => true
+    this.logado = this.logado && !!this.data;
 
     return this.logado;
   }
@@ -69,5 +73,15 @@ export class AutenticacaoService {
 
   public async deslogar() {
     this.logado = false;
+  }
+
+  public async getBearer(): Promise<string> {
+    this.getData();
+
+    if (this.data) {
+      return `Bearer ${this.data.token}`;
+    }
+
+    return null;
   }
 }
