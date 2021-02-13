@@ -42,10 +42,7 @@ export class CriarFeedbackPage implements OnInit {
     await toast.present();
   }
 
-  cadastrar() {
-    console.log('Cadastrar');
-    console.log(this.formulario.value);
-
+  async cadastrar() {
     if (this.formulario.valid) {
       this.feedbacks.unshift(this.formulario.value);
 
@@ -56,8 +53,12 @@ export class CriarFeedbackPage implements OnInit {
       };
 
       console.log('Feedback', feedback);
+      const response = await this.apiService.uploadPostagem(feedback);
 
-      this.apiService.uploadPostagem(feedback);
+      if (response) {
+        this.feedbacks.unshift(feedback);
+      }
+
       this.dismiss();
     } else {
       this.toastFormularioInvalido();
@@ -73,12 +74,12 @@ export class CriarFeedbackPage implements OnInit {
   async adicionarFoto() {
     await this.photoService.addNewToGallery();
     const photo = this.photoService.photos[0];
-    console.log('Photo', photo);
+    //console.log('Photo', photo);
 
-    this.imgForm.controls['url'].setValue(photo.webViewPath);
-    console.log(this.imgForm.get('url').value);
+    this.imgForm.controls.url.setValue(photo.webViewPath);
+    //console.log(this.imgForm.get('url').value);
 
-    console.log(this.photoService.photos);
+    //console.log(this.photoService.photos);
 
   }
 

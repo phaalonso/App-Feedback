@@ -24,17 +24,12 @@ export class PhotoService {
       quality: 100
     });
 
-    console.log(capturePhoto);
-
     const blob = await fetch(capturePhoto.webPath).then(r => r.blob());
-    console.log(blob);
 
     this.photos.unshift({
       webViewPath: capturePhoto.webPath,
       format: capturePhoto.format
     });
-
-    console.log('Fim do add', this.photos);
   }
 
   async clearPhotos() {

@@ -57,7 +57,7 @@ export class ApiService {
     });
   }
 
-  public async uploadPostagem(postagem: Feedback) {
+  public async uploadPostagem(postagem: Feedback): Promise<boolean> {
     const url = `${environment.serverUrl}/postagem`;
     const loading = await this.loadingCtrl.create({
       message: 'Uploading...'
@@ -73,19 +73,23 @@ export class ApiService {
     formData.append('usuario', postagem.usuario.toString());
 
     console.log('Img da postagem', postagem.images);
-    
+
     for (let img of postagem.images) {
       const blob = await fetch(img.url).then(r => r.blob());
 
       formData.append('imagens', blob,);
     }
 
-    this.http.post<boolean>(url, formData).subscribe(ok => {
-      loading?.dismiss();
-      this.showToast(true);
-    }, err => {
-      loading?.dismiss();
-      this.showToast(false);
+    return new Promise((resolve, reject) => {
+      this.http.post<boolean>(url, formData).subscribe(ok => {
+        loading?.dismiss();
+        this.showToast(true);
+        resolve(true);
+      }, err => {
+        loading?.dismiss();
+        this.showToast(false);
+        resolve(false);
+      });
     });
   }
 

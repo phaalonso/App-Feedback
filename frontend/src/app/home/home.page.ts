@@ -18,27 +18,6 @@ export class HomePage {
   ) {
 
     this.loadData();
-
-    // this.feedbacks.push({
-    //   title: 'Neque porro quisquam',
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu nunc sit amet lorem malesuada accumsan nec vel sapien. Nam ut lacus consectetur velit tincidunt cursus. Quisque cursus elit ut ornare venenatis. Proin non risus tincidunt, rhoncus urna ac, suscipit metus.',
-    //   photo_path: 'assets/wall.jpg',
-    //   type: 0
-    // });
-
-    // this.feedbacks.push({
-    //   title: 'Neque porro quisquam',
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu nunc sit amet lorem malesuada accumsan nec vel sapien. Nam ut lacus consectetur velit tincidunt cursus. Quisque cursus elit ut ornare venenatis. Proin non risus tincidunt, rhoncus urna ac, suscipit metus.',
-    //   photo_path: 'assets/wall.jpg',
-    //   type: 1
-    // });
-
-    // this.feedbacks.push({
-    //   title: 'Neque porro quisquam',
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu nunc sit amet lorem malesuada accumsan nec vel sapien. Nam ut lacus consectetur velit tincidunt cursus. Quisque cursus elit ut ornare venenatis. Proin non risus tincidunt, rhoncus urna ac, suscipit metus.',
-    //   photo_path: 'assets/wall.jpg',
-    //   type: 2
-    // });
   }
 
   async loadData() {
@@ -49,9 +28,9 @@ export class HomePage {
   }
 
   getFeedBackString(type: FeedbackType): string {
-    if (type == 0) return 'Crítica';
-    if (type == 1) return 'Sugestão';
-    if (type == 2) return 'Elogio';
+    if (type === 0) { return 'Crítica'; }
+    if (type === 1) { return 'Sugestão'; }
+    if (type === 2) { return 'Elogio'; }
 
     return '';
   }
@@ -60,7 +39,7 @@ export class HomePage {
     const modal = await this.modalController.create({
       component: CriarFeedbackPage,
       componentProps: {
-        'feedbacks': this.feedbacks
+        feedbacks: this.feedbacks
       }
     });
 

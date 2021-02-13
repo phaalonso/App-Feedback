@@ -4,7 +4,7 @@ export class postagemTitulo1612989147242 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
       await queryRunner.addColumn('postagem', new TableColumn({
-        name: 'titulo',
+        name: 'titulo', 
         type: 'varchar',
         isNullable: false
       }));
