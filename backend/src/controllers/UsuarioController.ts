@@ -37,18 +37,20 @@ export default {
     },
 
     async create(req: Request, res: Response) {
-        const { nome, email, senha } = req.body;
+        const { nome, email, senha, acessoLevel } = req.body;
 
 		const data = { 
 			nome, 
 			email,
-			senha
+			senha,
+			acessoLevel
 		};
 
 		const schema = Yup.object().shape({
 			nome: Yup.string().trim().required(),
 			email: Yup.string().trim().required().email(),
-			senha: Yup.string().trim().required()
+			senha: Yup.string().trim().required(),
+			acessoLevel: Yup.number().integer().min(0).max(1)
 		});
 
 		await schema.validate(data, {
@@ -98,6 +100,7 @@ export default {
 
 		return res.status(200).json({
 			token: token,
+			acessoLevel: user.acessoLevel
 		});
   }
 }

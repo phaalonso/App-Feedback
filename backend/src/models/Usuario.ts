@@ -1,6 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import Postagem from "./Postagem";
 
+export enum AcessoLevel {
+	USUARIO = 0,
+	ADMIN = 1
+}
+
 @Entity('usuario')
 export default class Usuario {
     @PrimaryGeneratedColumn('increment')
@@ -18,4 +23,6 @@ export default class Usuario {
     @OneToMany(() => Postagem, post => post.usuario)
     postagens: Postagem[];
 
+	@Column({ type: "enum", enum: AcessoLevel, nullable: false, default: 0 })
+	acessoLevel: AcessoLevel;
 }
