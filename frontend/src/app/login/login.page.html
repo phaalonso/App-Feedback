@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div>
+    <form [formGroup]="form" (ngSubmit)="login()" novalidate>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Email <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input type="email" formControlName="email" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('email').dirty || form.get('email').touched"
+      >
+        <span *ngIf="form.controls.email.errors?.required">
+          Insira o email
+        </span>
+        <span *ngIf="form.controls.email.errors?.pattern">
+          Email inválido
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Senha <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input type="password" formControlName="senha" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('senha').dirty || form.get('senha').touched"
+      >
+        <span *ngIf="form.controls.senha.errors?.required">
+          Insira a senha
+        </span>
+      </div>
+
+      <ion-button type="submit" expand="block" fill="solid" shape="round">
+        Logar
+      </ion-button>
+    </form>
+</div>
+</ion-content>
