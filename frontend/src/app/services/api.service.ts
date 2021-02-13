@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 
+export interface LoginResponse {
+  token: string;
+}
+
 export enum FeedbackType {
   CRITICA = 0,
   SUGESTAO = 1,
@@ -10,8 +14,8 @@ export enum FeedbackType {
 }
 
 export interface Usuario {
-  id: number;
-  nome: string;
+  id?: number;
+  nome?: string;
   email: string;
   senha: string;
 }
@@ -42,17 +46,20 @@ export class ApiService {
     private toastCtrl: ToastController
   ) { }
 
-  /**
-   * getPostagens
-   */
+  public logar(usuario: Usuario) {
+    const url = `${environment.serverUrl}/login`;
+
+    return this.http.post(url, usuario);
+  }
+
   public getPostagens(): Promise<any> {
     const url = `${environment.serverUrl}/postagem`;
 
     return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe((res: any) => {
+      this.http.get(url).subscribe((res: LoginResponse) => {
         resolve(res);
       }, err => {
-        reject(err);
+        reject(null);
       });
     });
   }
@@ -77,10 +84,10 @@ export class ApiService {
     for (let img of postagem.images) {
       const blob = await fetch(img.url).then(r => r.blob());
 
-      formData.append('imagens', blob,);
+      formData.append('imagens', blob, );
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       this.http.post<boolean>(url, formData).subscribe(ok => {
         loading?.dismiss();
         this.showToast(true);
