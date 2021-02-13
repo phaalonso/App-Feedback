@@ -21,10 +21,8 @@ export class LoginPage implements OnInit {
     private router: Router
   ) {
     this.form = this.formControl.group({
-      email: ['',
-        Validators.required
-      ],
-      senha: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required]]
     });
   }
 

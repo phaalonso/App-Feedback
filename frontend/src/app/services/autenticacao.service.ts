@@ -5,6 +5,7 @@ import {StorageService} from './storage.service';
 export interface LoginData {
   token: string;
   acessoLevel: number;
+  logado: boolean;
 }
 
 enum AcessLevel {
@@ -17,7 +18,6 @@ enum AcessLevel {
 })
 export class AutenticacaoService {
 
-  private logado = false;
   private data: LoginData;
 
   constructor(
@@ -30,8 +30,8 @@ export class AutenticacaoService {
       this.apiService.logar(user).subscribe((ok: LoginData) => {
         console.log(ok);
 
+        this.data.logado = true;
         this.saveData(ok);
-        this.logado = true;
         resolve(true);
       }, err => {
         console.error(err);
@@ -54,9 +54,12 @@ export class AutenticacaoService {
   public async isLogado() {
     await this.getData();
     // Se estiver logado e se data não for nulo => true
-    this.logado = this.logado && !!this.data;
 
-    return this.logado;
+    if (!this.data) {
+      return false;
+    }
+
+    return this.data.logado;
   }
 
   public getAcessLevel() {
@@ -72,7 +75,10 @@ export class AutenticacaoService {
   }
 
   public async deslogar() {
-    this.logado = false;
+    if (this.data) {
+      this.data.logado = false;
+      this.saveData(this.data);
+    }
   }
 
   public async getBearer(): Promise<string> {

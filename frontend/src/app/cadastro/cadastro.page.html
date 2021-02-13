@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>cadastro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div>
+    <form [formGroup]="form" (ngSubmit)="cadastrar()" novalidate>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Nome <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input formControlName="nome" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('nome').dirty || form.get('nome').touched"
+      >
+        <span *ngIf="form.controls.nome.errors?.required">
+          Insira o nome
+        </span>
+        <span *ngIf="form.controls.nome.errors?.pattern">
+          Nome inválido
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Email <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input type="email" formControlName="email" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('email').dirty || form.get('email').touched"
+      >
+        <span *ngIf="form.controls.email.errors?.required">
+          Insira o email
+        </span>
+        <span *ngIf="form.controls.email.errors?.email">
+          Email inválido
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating"
+          >Senha <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input type="password" formControlName="senha" required></ion-input>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('senha').dirty || form.get('senha').touched"
+      >
+        <span *ngIf="form.controls.senha.errors?.required">
+          Insira a senha
+        </span>
+      </div>
+
+      <ion-item>
+        <ion-label>Tipo do usuário</ion-label>
+        <ion-select formControlName="acessoLevel" cancelText="Sair" okText="Concluir!">
+          <ion-select-option value="0">Usuario</ion-select-option>
+          <ion-select-option value="1">Administrador</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div
+        class="errors"
+        *ngIf="form.get('acessoLevel').dirty || form.get('acessoLevel').touched"
+      >
+        <span *ngIf="form.controls.acessoLevel.errors?.required">
+          Selecione um item
+        </span>
+      </div>
+
+      <ion-button type="submit" expand="block" fill="solid" shape="round">
+        Cadastrar
+      </ion-button>
+    </form>
+</div>
+</ion-content>

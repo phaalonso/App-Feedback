@@ -21,7 +21,7 @@
         <span *ngIf="form.controls.email.errors?.required">
           Insira o email
         </span>
-        <span *ngIf="form.controls.email.errors?.pattern">
+        <span *ngIf="form.controls.email.errors?.email">
           Email inválido
         </span>
       </div>
@@ -45,5 +45,9 @@
         Logar
       </ion-button>
     </form>
+
+    <ion-button expand="block" shape="round" [routerLink]="['/cadastro']">
+      Cadastrar
+    </ion-button>
 </div>
 </ion-content>

@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'autorizar',
     loadChildren: () => import('./autorizar/autorizar.module').then( m => m.AutorizarPageModule)
   },
+  {
+    path: 'cadastro',
+    loadChildren: () => import('./cadastro/cadastro.module').then( m => m.CadastroPageModule)
+  },
 ];
 
 @NgModule({

@@ -99,11 +99,11 @@ export class ApiService {
     return new Promise((resolve, _) => {
       this.http.post<boolean>(url, formData).subscribe(ok => {
         loading?.dismiss();
-        this.showToast(true);
+        this.showToast('Upload realizado com sucesso');
         resolve(true);
       }, err => {
         loading?.dismiss();
-        this.showToast(false);
+        this.showToast('Falha no upload');
         resolve(false);
       });
     });
@@ -139,6 +139,22 @@ export class ApiService {
     });
   }
 
+  public async cadastrarUsuario(usuario: Usuario) {
+    const url = `${environment.serverUrl}/user`;
+
+    return new Promise((resolve, reject) => {
+      this.http.post(url, usuario).subscribe(ok => {
+        this.showToast('Usuario cadastrado com sucesso');
+        resolve(ok);
+      }, err => {
+        if (err.status === 409) {
+          this.showToast(err.error.message);
+        }
+        reject(err);
+      });
+    });
+  }
+
   public async deletar(id: number) {
     const url = `${environment.serverUrl}/postagem/${id}`;
 
@@ -161,24 +177,14 @@ export class ApiService {
     });
   }
 
-  private async showToast(ok: boolean) {
-    if (ok) {
+  private async showToast(message: string) {
       const toast = await this.toastCtrl.create({
-        message: 'Upload com sucesso',
+        message,
         duration: 3000,
-        position: 'top'
+        position: 'bottom'
       });
 
       toast.present();
-    } else {
-      const toast = await this.toastCtrl.create({
-        message: 'Falha no upload',
-        duration: 3000,
-        position: 'top'
-      });
-
-      toast.present();
-    }
   }
 
 }
