@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+import {ApiService, Feedback} from '../services/api.service';
+import {AutenticacaoService} from '../services/autenticacao.service';
 
 @Component({
   selector: 'app-autorizar',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AutorizarPage implements OnInit {
 
-  constructor() { }
+  public feedbacks: Feedback[];
+
+  constructor(
+    private router: Router,
+    private autenticacaoService: AutenticacaoService,
+    public apiService: ApiService
+  ) { }
 
   ngOnInit() {
+    // Redireciona, se o usuario não possuir permissão
+    if (!this.autenticacaoService.isAdmin()) {
+      this.router.navigate(['/home']);
+    }
   }
 
 }

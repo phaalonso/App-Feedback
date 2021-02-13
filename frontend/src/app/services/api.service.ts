@@ -100,6 +100,14 @@ export class ApiService {
     });
   }
 
+  public getFeedBackString(type: FeedbackType): string {
+    if (type === 0) { return 'Crítica'; }
+    if (type === 1) { return 'Sugestão'; }
+    if (type === 2) { return 'Elogio'; }
+
+    return '';
+  }
+
   private async showToast(ok: boolean) {
     if (ok) {
       const toast = await this.toastCtrl.create({

@@ -34,14 +34,6 @@ export class HomePage {
     });
   }
 
-  public getFeedBackString(type: FeedbackType): string {
-    if (type === 0) { return 'Crítica'; }
-    if (type === 1) { return 'Sugestão'; }
-    if (type === 2) { return 'Elogio'; }
-
-    return '';
-  }
-
   public async criarFeedback() {
     const modal = await this.modalController.create({
       component: CriarFeedbackPage,

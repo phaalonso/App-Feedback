@@ -4,7 +4,7 @@ import {StorageService} from './storage.service';
 
 interface LoginData {
   token: string;
-  accesLevel: number;
+  acessoLevel: number;
 }
 
 enum AcessLevel {
@@ -56,8 +56,8 @@ export class AutenticacaoService {
   }
 
   public getAcessLevel() {
-    if (this.data && this.data.accesLevel) {
-      return this.data.accesLevel;
+    if (this.data && this.data.acessoLevel) {
+      return this.data.acessoLevel;
     }
 
     return null;
