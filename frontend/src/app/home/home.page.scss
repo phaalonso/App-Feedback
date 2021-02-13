@@ -39,3 +39,7 @@ ion-card > ion-card {
 ion-card-content {
   color: black;
 }
+
+ion-fab-button + ion-fab-button {
+  margin-top: 10px;
+}
