@@ -5,19 +5,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button *ngIf="autenticacaoService.isAdmin()" [routerLink]="['/autorizar']">
+  <ion-button
+    *ngIf="autenticacaoService.isAdmin()"
+    [routerLink]="['/autorizar']"
+    expand="full"
+    shape="round"
+  >
     Ir aprovar
   </ion-button>
 
   <div *ngFor="let fb of feedbacks">
     <ion-card>
-      <img *ngIf="fb.images && fb.images.length > 0" src="{{fb.images[0].url}}" />
+      <img
+        *ngIf="fb.images && fb.images.length > 0"
+        src="{{ fb.images[0].url }}"
+      />
       <ion-card-header>
-        <ion-card-subtitle>{{apiService.getFeedBackString(fb.tipo)}}</ion-card-subtitle>
-        <ion-card-title>{{fb.titulo}}</ion-card-title>
+        <ion-card-subtitle>{{
+          apiService.getFeedBackString(fb.tipo)
+        }}</ion-card-subtitle>
+        <ion-card-title>{{ fb.titulo }}</ion-card-title>
       </ion-card-header>
-      <ion-card-content> {{fb.mensagem}} </ion-card-content>
+      <ion-card-content> {{ fb.mensagem }} </ion-card-content>
     </ion-card>
+  </div>
+
+  <div *ngIf="feedbacks.length == 0" id="indisponivel">
+      <p> Não há feedbacks disponiveis </p>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">

@@ -1,0 +1,34 @@
+#content {
+  height: 100vh;
+}
+
+#indisponivel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  p {
+    font-weight: 600;
+    color: gray;
+    vertical-align: middle;
+  }
+}
+
+ion-card {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-radius: 8px;
+}
+
+ion-card > ion-card {
+  margin-bottom: 10px;
+}
+
+ion-card-content {
+  color: black;
+}
+
+ion-fab-button + ion-fab-button {
+  margin-top: 10px;
+}

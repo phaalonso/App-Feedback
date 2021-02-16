@@ -5,24 +5,35 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list *ngFor="let fb of feedbacks">
-    <ion-card>
-      <img *ngIf="fb.images && fb.images.length > 0" src="{{fb.images[0].url}}" />
-      <ion-card-header>
-        <ion-card-subtitle>{{apiService.getFeedBackString(fb.tipo)}}</ion-card-subtitle>
-        <ion-card-title>{{fb.titulo}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content> {{fb.mensagem}} </ion-card-content>
-      <ion-button (click)="aprovar(fb.id)">Autorizar</ion-button>
-      <ion-button (click)="deletar(fb.id)">
-        <ion-icon color="danger" name="trash"></ion-icon>
-      </ion-button>
-    </ion-card>
-  </ion-list>
+  <div id="content">
+    <div *ngFor="let fb of feedbacks">
+      <ion-card>
+        <img
+          *ngIf="fb.images && fb.images.length > 0"
+          src="{{ fb.images[0].url }}"
+        />
+        <ion-card-header>
+          <ion-card-subtitle>{{
+            apiService.getFeedBackString(fb.tipo)
+          }}</ion-card-subtitle>
+          <ion-card-title>{{ fb.titulo }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content> {{ fb.mensagem }} </ion-card-content>
+        <ion-button (click)="aprovar(fb.id)">Autorizar</ion-button>
+        <ion-button (click)="deletar(fb.id)">
+          <ion-icon color="danger" name="trash"></ion-icon>
+        </ion-button>
+      </ion-card>
+    </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <div *ngIf="feedbacks.length == 0" id="indisponivel">
+      <p>Não há feedbacks disponiveis</p>
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button [routerLink]="['/home']">
-      <ion-icon name="arrow-back-circle"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+        <ion-icon name="arrow-back-circle"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
 </ion-content>

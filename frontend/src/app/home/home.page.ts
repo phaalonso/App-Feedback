@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { CriarFeedbackPage } from '../criar-feedback/criar-feedback.page';
-import { ApiService, Feedback, FeedbackType } from '../services/api.service';
+import { ApiService, Feedback } from '../services/api.service';
 import {AutenticacaoService} from '../services/autenticacao.service';
 
 @Component({
@@ -23,7 +23,8 @@ export class HomePage {
     // Prossiga para a página caso esteja logado, senão redireciona
 
     this.autenticacaoService.isLogado().then(res => {
-      if (!this.autenticacaoService.isLogado()) {
+      console.log('Ta mesmo?:', res);
+      if (!res) {
         this.router.navigate(['/login']);
       } else {
         this.apiService.getPostagens(true).then(data => {
