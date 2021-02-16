@@ -28,9 +28,9 @@ export class AutenticacaoService {
   public login(user: Usuario) {
     return new Promise((resolve, _) => {
       this.apiService.logar(user).subscribe((ok: LoginData) => {
-        console.log(ok);
-
+        this.data = ok;
         this.data.logado = true;
+
         this.saveData(ok);
         resolve(true);
       }, err => {
@@ -41,7 +41,6 @@ export class AutenticacaoService {
   }
 
   private async saveData(lgData: LoginData) {
-    this.data = lgData;
     this.storageService.armazenar('login', lgData);
   }
 
@@ -49,16 +48,22 @@ export class AutenticacaoService {
     if (!this.data) {
       this.data = await this.storageService.recuperar('login');
     }
+    console.log('Get data', this.data);
+
+    return this.data;
   }
 
   public async isLogado() {
+    console.log('Esta logado');
     await this.getData();
     // Se estiver logado e se data não for nulo => true
 
     if (!this.data) {
+      console.log('Nope');
       return false;
     }
 
+    console.log('Ta sim', this.data);
     return this.data.logado;
   }
 

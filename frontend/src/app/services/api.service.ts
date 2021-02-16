@@ -68,7 +68,7 @@ export class ApiService {
       this.http.get(url, { params }).subscribe((res: LoginResponse) => {
         resolve(res);
       }, err => {
-        reject(null);
+        reject(err);
       });
     });
   }
