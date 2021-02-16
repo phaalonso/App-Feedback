@@ -44,22 +44,22 @@ export class AutenticacaoService {
     this.storageService.armazenar('login', lgData);
   }
 
+  private async loadData() {
+      this.data = await this.storageService.recuperar('login');
+  }
+
   private async getData() {
     if (!this.data) {
-      this.data = await this.storageService.recuperar('login');
+      this.loadData();
     }
-    console.log('Get data', this.data);
-
     return this.data;
   }
 
   public async isLogado() {
-    console.log('Esta logado');
-    await this.getData();
+    await this.loadData();
     // Se estiver logado e se data não for nulo => true
 
     if (!this.data) {
-      console.log('Nope');
       return false;
     }
 
@@ -67,16 +67,13 @@ export class AutenticacaoService {
     return this.data.logado;
   }
 
-  public getAcessLevel() {
-    if (this.data && this.data.acessoLevel) {
-      return this.data.acessoLevel;
+  public async isAdmin() {
+    if (!this.data) {
+      await this.loadData();
     }
 
-    return null;
-  }
-
-  public isAdmin() {
-    return this.getAcessLevel() === AcessLevel.ADMIN;
+    console.log(this.data.acessoLevel === AcessLevel.ADMIN);
+    return this.data.acessoLevel === AcessLevel.ADMIN;
   }
 
   public async deslogar() {
@@ -87,7 +84,7 @@ export class AutenticacaoService {
   }
 
   public async getBearer(): Promise<string> {
-    this.getData();
+    await this.getData();
 
     if (this.data) {
       return `Bearer ${this.data.token}`;
