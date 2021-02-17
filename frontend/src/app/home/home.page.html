@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <div id="content">
-      <ion-button
+    <ion-button
       *ngIf="autenticacaoService.isAdmin()"
       [routerLink]="['/autorizar']"
       expand="full"
@@ -17,10 +17,9 @@
 
     <div *ngFor="let fb of feedbacks">
       <ion-card>
-        <img
-          *ngIf="fb.images && fb.images.length > 0"
-          src="{{ fb.images[0].url }}"
-        />
+        <div class="images" *ngIf="fb.images && fb.images.length > 0">
+          <img *ngFor="let img of fb.images" src="{{ img.url }}" />
+        </div>
         <ion-card-header>
           <ion-card-subtitle>{{
             apiService.getFeedBackString(fb.tipo)

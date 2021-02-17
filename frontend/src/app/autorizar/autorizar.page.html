@@ -8,10 +8,9 @@
   <div id="content">
     <div *ngFor="let fb of feedbacks">
       <ion-card>
-        <img
-          *ngIf="fb.images && fb.images.length > 0"
-          src="{{ fb.images[0].url }}"
-        />
+        <div class="images" *ngIf="fb.images && fb.images.length > 0">
+          <img *ngFor="let img of fb.images" src="{{ img.url }}" />
+        </div>
         <ion-card-header>
           <ion-card-subtitle>{{
             apiService.getFeedBackString(fb.tipo)
@@ -29,11 +28,10 @@
     <div *ngIf="feedbacks.length == 0" id="indisponivel">
       <p>Não há feedbacks disponiveis</p>
     </div>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="voltar()">
-        <ion-icon name="arrow-back-circle"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
   </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="voltar()">
+      <ion-icon name="arrow-back-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
