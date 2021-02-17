@@ -9,24 +9,16 @@
 
 <ion-content>
   <div class="container">
-    <ion-img
-      *ngFor="let photo of photoService.photos"
-      [src]="photo.webViewPath"
-    ></ion-img>
-    <form [formGroup]="formulario" (ngSubmit)="cadastrar()" novalidate>
 
+      <ion-img
+        *ngFor="let item of photoService.photos"
+        [src]="item.webViewPath"
+      ></ion-img>
+    <form [formGroup]="formulario" (ngSubmit)="cadastrar()" novalidate>
       <ion-button (click)="adicionarFoto()">
         <span>Adicionar foto</span>
         <ion-icon name="camera"></ion-icon>
       </ion-button>
-      <div
-        class="errors"
-        *ngIf="imgForm.get('url').dirty || imgForm.get('url').touched"
-      >
-        <span *ngIf="imgForm.controls.url.errors?.required">
-          Insira uma foto
-        </span>
-      </div>
 
       <ion-item>
         <ion-label position="floating"
